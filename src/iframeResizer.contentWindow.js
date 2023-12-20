@@ -941,13 +941,15 @@
     ]
   }
 
-  function getTaggedElements(side, tag) {
+  function getTaggedElements(side, tag, elementName) {
+    let selector = elementName && elementName !== 'body' ? elementName : `[${tag}]`;
+    
     function noTaggedElementsFound() {
-      warn('No tagged elements (' + tag + ') found on page')
+      warn('No tagged elements (' + selector + ') found on page')
       return document.querySelectorAll('body *')
     }
 
-    var elements = document.querySelectorAll('[' + tag + ']')
+    var elements = document.querySelectorAll(selector);
 
     if (elements.length === 0) noTaggedElementsFound()
 
@@ -1007,7 +1009,7 @@
       },
 
       taggedElement: function getTaggedElementsHeight() {
-        return getTaggedElements('bottom', 'data-iframe-height')
+        return getTaggedElements('bottom', 'data-iframe-height', heightCalcElement)
       },
 
     elementSelector: function getElementSelectorHeight(){
@@ -1052,7 +1054,7 @@
       },
 
       taggedElement: function getTaggedElementsWidth() {
-        return getTaggedElements('right', 'data-iframe-width')
+        return getTaggedElements('right', 'data-iframe-width', widthCalcElement)
       }
     }
 
