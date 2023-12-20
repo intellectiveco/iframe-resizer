@@ -39,6 +39,7 @@
       inPageLinks: false,
       enablePublicMethods: true,
       heightCalculationMethod: 'bodyOffset',
+      heightCalculationElement: 'body',
       id: 'iFrameResizer',
       interval: 32,
       log: false,
@@ -54,6 +55,7 @@
       warningTimeout: 5000,
       tolerance: 0,
       widthCalculationMethod: 'scroll',
+      widthCalculationElement: 'body',
       onClose: function () {
         return true
       },
@@ -945,7 +947,11 @@
       ':' +
       settings[iframeId].widthCalculationMethod +
       ':' +
-      settings[iframeId].mouseEvents
+      settings[iframeId].mouseEvents +
+      ':' +
+      settings[iframeId].heightCalculationElement +
+      ':' +
+      settings[iframeId].widthCalculationElement
     )
   }
 

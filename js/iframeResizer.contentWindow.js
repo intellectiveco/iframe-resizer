@@ -26,6 +26,7 @@
     height = 1,
     heightCalcModeDefault = 'bodyOffset',
     heightCalcMode = heightCalcModeDefault,
+    heightCalcElement = 'body',
     initLock = true,
     initMsg = '',
     inPageLinks = {},
@@ -53,6 +54,7 @@
     width = 1,
     widthCalcModeDefault = 'scroll',
     widthCalcMode = widthCalcModeDefault,
+    widthCalcElement = 'body',
     win = window,
     onMessage = function () {
       warn('onMessage function not defined')
@@ -213,6 +215,8 @@
     resizeFrom = undefined === data[13] ? resizeFrom : data[13]
     widthCalcMode = undefined === data[14] ? widthCalcMode : data[14]
     mouseEvents = undefined === data[15] ? mouseEvents : strBool(data[15])
+    heightCalcElement = undefined === data[16] ? heightCalcElement : data[16]
+    widthCalcElement = undefined === data[17] ? widthCalcElement : data[17]
   }
 
   function depricate(key) {
@@ -244,6 +248,9 @@
       onReady = 'onReady' in data ? data.onReady : onReady
       targetOriginDefault =
         'targetOrigin' in data ? data.targetOrigin : targetOriginDefault
+      heightCalcElement = 'heightCalculationElement' in data
+          ? data.heightCalculationElement
+          : heightCalcElement
       heightCalcMode =
         'heightCalculationMethod' in data
           ? data.heightCalculationMethod
@@ -252,6 +259,9 @@
         'widthCalculationMethod' in data
           ? data.widthCalculationMethod
           : widthCalcMode
+       widthCalcElement = 'widthCalculationElement' in data
+          ? data.widthCalculationElement
+          : widthCalcElement
     }
 
     function setupCustomCalcMethods(calcMode, calcFunc) {
@@ -719,11 +729,23 @@
         checkHeightMode()
       },
 
+      setHeightCalculationElement: function setHeightCalculationElementF(
+        heightCalculationElement
+      ) {
+        heightCalcElement = heightCalculationElement        
+      },
+
       setWidthCalculationMethod: function setWidthCalculationMethodF(
         widthCalculationMethod
       ) {
         widthCalcMode = widthCalculationMethod
         checkWidthMode()
+      },
+
+       setWidthCalculationElement: function setWidthCalculationElementF(
+        widthCalculationElement
+      ) {
+        widthCalcElement = widthCalculationElement        
       },
 
       setTargetOrigin: function setTargetOriginF(targetOrigin) {
@@ -919,13 +941,15 @@
     ]
   }
 
-  function getTaggedElements(side, tag) {
+  function getTaggedElements(side, tag, elementName) {
+    let selector = elementName && elementName !== 'body' ? elementName : `[${tag}]`;
+    
     function noTaggedElementsFound() {
-      warn('No tagged elements (' + tag + ') found on page')
+      warn('No tagged elements (' + selector + ') found on page')
       return document.querySelectorAll('body *')
     }
 
-    var elements = document.querySelectorAll('[' + tag + ']')
+    var elements = document.querySelectorAll(selector);
 
     if (elements.length === 0) noTaggedElementsFound()
 
@@ -985,8 +1009,12 @@
       },
 
       taggedElement: function getTaggedElementsHeight() {
-        return getTaggedElements('bottom', 'data-iframe-height')
-      }
+        return getTaggedElements('bottom', 'data-iframe-height', heightCalcElement)
+      },
+
+    elementSelector: function getElementSelectorHeight(){
+      return getElementsBySelector()
+    }
     },
     getWidth = {
       bodyScroll: function getBodyScrollWidth() {
@@ -1026,7 +1054,7 @@
       },
 
       taggedElement: function getTaggedElementsWidth() {
-        return getTaggedElements('right', 'data-iframe-width')
+        return getTaggedElements('right', 'data-iframe-width', widthCalcElement)
       }
     }
 
