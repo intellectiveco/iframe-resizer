@@ -215,8 +215,8 @@
     resizeFrom = undefined === data[13] ? resizeFrom : data[13]
     widthCalcMode = undefined === data[14] ? widthCalcMode : data[14]
     mouseEvents = undefined === data[15] ? mouseEvents : strBool(data[15])
-    heightCalcElement = undefined === data[15] ? mouseEvents : strBool(data[15])
-    widthCalcElement = undefined === data[15] ? mouseEvents : strBool(data[15])
+    heightCalcElement = undefined === data[16] ? heightCalcElement : data[16]
+    widthCalcElement = undefined === data[17] ? widthCalcElement : data[17]
   }
 
   function depricate(key) {
