@@ -248,7 +248,8 @@
       onReady = 'onReady' in data ? data.onReady : onReady
       targetOriginDefault =
         'targetOrigin' in data ? data.targetOrigin : targetOriginDefault
-      heightCalcElement = 'heightCalculationElement' in data
+      heightCalcElement =
+        'heightCalculationElement' in data
           ? data.heightCalculationElement
           : heightCalcElement
       heightCalcMode =
@@ -259,7 +260,8 @@
         'widthCalculationMethod' in data
           ? data.widthCalculationMethod
           : widthCalcMode
-       widthCalcElement = 'widthCalculationElement' in data
+      widthCalcElement =
+        'widthCalculationElement' in data
           ? data.widthCalculationElement
           : widthCalcElement
     }
@@ -732,7 +734,7 @@
       setHeightCalculationElement: function setHeightCalculationElementF(
         heightCalculationElement
       ) {
-        heightCalcElement = heightCalculationElement        
+        heightCalcElement = heightCalculationElement
       },
 
       setWidthCalculationMethod: function setWidthCalculationMethodF(
@@ -742,10 +744,10 @@
         checkWidthMode()
       },
 
-       setWidthCalculationElement: function setWidthCalculationElementF(
+      setWidthCalculationElement: function setWidthCalculationElementF(
         widthCalculationElement
       ) {
-        widthCalcElement = widthCalculationElement        
+        widthCalcElement = widthCalculationElement
       },
 
       setTargetOrigin: function setTargetOriginF(targetOrigin) {
@@ -925,11 +927,11 @@
     timer = Date.now() - timer
 
     log('Parsed ' + elementsLength + ' HTML elements')
-    log('Element position calculated in ' + timer + 'ms')
+    log('Element position ' + maxVal + ' calculated in ' + timer + 'ms')
 
     chkEventThottle(timer)
 
-    return maxVal
+    return maxVal + 1
   }
 
   function getAllMeasurements(dimensions) {
@@ -942,14 +944,17 @@
   }
 
   function getTaggedElements(side, tag, elementName) {
-    let selector = elementName && elementName !== 'body' ? elementName : `[${tag}]`;
-    
+    const selector =
+      elementName && elementName !== 'body' ? elementName : `[${tag}]`
+
+    log('Get all elements using selector ' + selector)
+
     function noTaggedElementsFound() {
       warn('No tagged elements (' + selector + ') found on page')
       return document.querySelectorAll('body *')
     }
 
-    var elements = document.querySelectorAll(selector);
+    var elements = document.querySelectorAll(selector)
 
     if (elements.length === 0) noTaggedElementsFound()
 
@@ -1009,12 +1014,16 @@
       },
 
       taggedElement: function getTaggedElementsHeight() {
-        return getTaggedElements('bottom', 'data-iframe-height', heightCalcElement)
+        return getTaggedElements(
+          'bottom',
+          'data-iframe-height',
+          heightCalcElement
+        )
       },
 
-    elementSelector: function getElementSelectorHeight(){
-      return getElementsBySelector()
-    }
+      elementSelector: function getElementSelectorHeight() {
+        return getElementsBySelector()
+      }
     },
     getWidth = {
       bodyScroll: function getBodyScrollWidth() {
